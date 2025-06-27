@@ -1,0 +1,37 @@
+\documentclass[a4paper]{article}
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage[bottom=0.5cm, right=1.5cm, left=1.5cm, top=1.5cm]{geometry}\usepackage{rotating}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{mathtools}
+\usepackage{hhline}
+\usepackage[pdfauthor={Alexandre S. Avaro},pdftitle={A MATLAB pipeline for hydrogel bead detection}]{hyperref}
+\usepackage{float}
+\usepackage{array}
+\usepackage{textcomp}
+\usepackage{libertine}
+\usepackage[libertine]{newtxmath}
+\usepackage{etoolbox}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{bm}
+
+\begin{document}
+\title{A \textsc{MATLAB} pipeline for hydrogel bead detection}
+\author{Alexandre S. Avaro}
+\maketitle
+
+This document explains how to use the bead tracking and quantification tool based on MATLAB. This code uses image morphology tools to count beads and quantify signal in fluorescence microscopy images. 
+
+\section{Requirements}
+You will require the following to run the code:
+\begin{itemize}
+    \item A local MATLAB install. ESPCI provides a free MATLAB license to any user with an ESPCI email adress. See \href{https://www.mathworks.com/academia/tah-portal/espci-30728296.html}{here} to install MATLAB and get started.
+    \item The code \verb|main.m| along with the helper function \verb|impaint_nans.m|.
+\end{itemize}
+
+
+\end{document}
