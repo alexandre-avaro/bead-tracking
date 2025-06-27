@@ -16,22 +16,23 @@ for i=1:length(directory)
     
     % create mask
     obj = strel("disk", 3, 8);
-    obj2 = strel("disk", 1, 8);
+    obj2 = strel("disk", 5, 8);
     
     bin = imdilate(imerode(imbinarize(im, "adaptive", 'Sensitivity', 0.57), obj), obj);
-    mask = imdilate(bin, obj2);
+
+    % Detect circles and make halo for bkg subtraction
+    [centers, radii] = imfindcircles(bin, [12 30]);
     
-    % Detect circles
-    [centers, radii] = imfindcircles(mask, [20 100], 'Sensitivity', 0.8);
     circMask = circles2mask(centers, radii, size(im));
     
     % Remove partial circles and select remaining circles
     cleanMask =  imclearborder(circMask);
+    cleanMaskbkg =  imdilate(cleanMask, obj2);
+
     [cleanCenters, cleanRadii] = imfindcircles(cleanMask, [15 100], 'Sensitivity', 0.8);
 
-
     % deduce background
-    bg = im.*im2double(1-cleanMask);
+    bg = im.*im2double(1-cleanMaskbkg);
     bg(bg==0) = NaN;
     
     % interpolate BG and subtract from original image
@@ -62,7 +63,7 @@ end
 BeadNumber = length(condition_bead_list);
 
 figs = gcf;
-hi = histogram(condition_bead_list,'BinWidth', 100, 'BinLimits', [0,1800]);
+hi = histogram(condition_bead_list, 'BinLimits', [0,60]);
 hold on
 xlabel('Integrated intensity')
 ylabel('Count')
@@ -75,7 +76,7 @@ exportgraphics(figs, append(f(1:end-1), "_comb_int_hist.png"))
 close
 
 figs2 = gcf;
-hi2 = histogram(condition_radius_list,'BinWidth', 1, 'BinLimits', [20,50]);
+hi2 = histogram(condition_radius_list,'BinWidth', 1, 'BinLimits', [12,30]);
 hold on
 xlabel('Bead radius [px]')
 ylabel('Count')
